@@ -1,15 +1,15 @@
 import pg from 'pg';
-import dotenv from "dotenv";
-dotenv.config();
-
+// import dotenv from "dotenv";
+// dotenv.config();
+// nao funcionando 
 
 const { Pool } = pg;
 
-const user = process.env.USER;
-const password = process.env.PASSWORD;
-const host = process.env.HOST;
+const user = "postgres";
+const password = "19951995";
+const host = "localhost";
 const port = 5432;
-const database = process.env.DATABASE;
+const database = "dbShortly";
 
 {
     rejectUnauthorized: false

@@ -5,10 +5,11 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 export async function validateToken (req,res,next){
     const { authorization } = req.headers;
+    if (!authorization) return res.status(401).send("Token nao encontrado");
     const token = authorization.replace("Bearer", "").trim();
     try{
         const validateToken= jwt.verify(token, process.env.ENCRYPTPASSWORD);
-        
+        res.locals.user=validateToken
     }catch(e){
         res.sendStatus(400);
     }
@@ -16,7 +17,7 @@ export async function validateToken (req,res,next){
 }
 export async function validateBodyShortUrl (req,res,next){
      const schema = joi.object({
-         url: joi.string().required()
+         url: joi.string().uri().required()
      });
      const {error}= schema.validate(req.body);
      if(error){

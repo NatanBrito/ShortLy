@@ -31,7 +31,7 @@ export async function signIn (req,res){
       res.status(401).send("email ou senha incorretos...");
         return;
     }
-    const dados= {name}
+    const dados= {email}
     const configuracoes = { expiresIn: 60*60*24} 
     const token= jwt.sign(dados,process.env.ENCRYPTPASSWORD, configuracoes);
     res.status(200).send(token);

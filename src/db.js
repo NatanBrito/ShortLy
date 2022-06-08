@@ -5,11 +5,7 @@ import pg from 'pg';
 
 const { Pool } = pg;
 
-const user = "postgres";
-const password = "19951995";
-const host = "localhost";
-const port = 5432;
-const database = "dbShortly";
+
 
 {
     rejectUnauthorized: false

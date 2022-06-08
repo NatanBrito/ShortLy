@@ -24,3 +24,17 @@ export async function makeShortUrl (req,res){
         res.sendStatus(400);
     }
 }
+export async function findShortUrl (req,res){
+    const {id}=req.params;
+    if(!id) return res.sendStatus(409);
+    try{
+    const findShort= await db.query(`
+    SELECT "shortUrls".id, "shortUrls"."shortUrl", "shortUrls".url FROM "shortUrls"
+    WHERE id= $1
+    `,[id]);
+    if(findShort.rowCount === 0) return res.sendStatus(404);
+    res.status(200).send(findShort.rows[0]);
+    }catch(e){
+        res.sendStatus(400);
+    }
+}

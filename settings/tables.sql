@@ -6,6 +6,7 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "shortUrls" (
+    "id" SERIAL PRIMARY KEY,
 	"userId" INT NOT NULL REFERENCES "users"("id") ,
 	"url" TEXT NOT NULL,
 	"shortUrl" TEXT NOT NULL,

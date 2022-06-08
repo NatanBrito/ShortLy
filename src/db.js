@@ -5,7 +5,11 @@ import pg from 'pg';
 
 const { Pool } = pg;
 
-
+const user = "postgres";
+const password = "19951995";
+const host = "localhost";
+const port = 5432;
+const database = "dbShortly";
 
 {
     rejectUnauthorized: false
@@ -18,3 +22,15 @@ const db = new Pool({
   database
 });
 export default db;
+
+// const { Pool } = pg;
+
+// const databaseConfig = {
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//       rejectUnauthorized: false
+//   }
+// }
+
+// const db = new Pool(databaseConfig);
+// export default db;

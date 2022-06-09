@@ -55,7 +55,7 @@ export async function openUrl (req,res){
     SET "visitCount"=$1
     WHERE "shortUrl"=$2 
     `,[contador,shortUrl])
-    res.redirect(findShort.rows[0].url);
+    res.redirect(200,findShort.rows[0].url);
     } catch(e){
         res.sendStatus(400);
     }

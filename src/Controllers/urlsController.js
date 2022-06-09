@@ -62,7 +62,25 @@ export async function openUrl (req,res){
 }
 export async function deleteUrl (req,res){
     const {email} = res.locals.user
-    const {id}=req.params;
-    if(!id) return res.sendStatus(400);
-    res.sendStatus(208);
+    const ParamId=req.params.id;
+    if(!ParamId) return res.sendStatus(400);
+    try{
+    const findUser= await db.query(`
+    SELECT  users.id as "mainId", short.id, short."userId" FROM "users"
+    JOIN "shortUrls" su ON su."userId"=users.id
+    JOIN "shortUrls" short ON short.id= $1
+    WHERE email= $2
+    LIMIT 1;
+    `,[ParamId,email]);
+    if(findUser.rowCount === 0) return res.sendStatus(404);
+    if(findUser.rows[0].mainId !== findUser.rows[0].userId) return res.sendStatus(401);
+    const deleteUrl= db.query(`
+    DELETE FROM "shortUrls"
+    WHERE id=$1
+    `,[ParamId])
+    
+    res.sendStatus(204);
+    } catch(e){
+        res.sendStatus(400);
+    }
 }

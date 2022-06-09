@@ -32,7 +32,7 @@ export async function signIn (req,res){
         return;
     }
     const dados= {email}
-    const configuracoes = { expiresIn: 60*60*24} 
+    const configuracoes = { expiresIn: 60*60*24*3} 
     const token= jwt.sign(dados,process.env.ENCRYPTPASSWORD, configuracoes);
     res.status(200).send(token);
     }catch(e){

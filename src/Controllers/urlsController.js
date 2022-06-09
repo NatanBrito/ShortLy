@@ -41,14 +41,28 @@ export async function findShortUrl (req,res){
 
 export async function openUrl (req,res){
     const {shortUrl}=req.params;
-    if(!shortUrl) return res.sendStatus(409);
+    if(!shortUrl) return res.sendStatus(400);
     try{
     const findShort= await db.query(`
     SELECT * FROM "shortUrls"
     WHERE "shortUrl"= $1
     `,[shortUrl]);
+    if(findShort.rowCount === 0) return res.sendStatus(404);
+    let contador= findShort.rows[0].visitCount;
+    contador++ 
+    const updateCount= await db.query(`
+    UPDATE "shortUrls"
+    SET "visitCount"=$1
+    WHERE "shortUrl"=$2 
+    `,[contador,shortUrl])
     res.redirect(findShort.rows[0].url);
     } catch(e){
         res.sendStatus(400);
     }
+}
+export async function deleteUrl (req,res){
+    const {email} = res.locals.user
+    const {id}=req.params;
+    if(!id) return res.sendStatus(400);
+    res.sendStatus(208);
 }

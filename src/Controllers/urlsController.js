@@ -38,3 +38,17 @@ export async function findShortUrl (req,res){
         res.sendStatus(400);
     }
 }
+
+export async function openUrl (req,res){
+    const {shortUrl}=req.params;
+    if(!shortUrl) return res.sendStatus(409);
+    try{
+    const findShort= await db.query(`
+    SELECT * FROM "shortUrls"
+    WHERE "shortUrl"= $1
+    `,[shortUrl]);
+    res.redirect(findShort.rows[0].url);
+    } catch(e){
+        res.sendStatus(400);
+    }
+}

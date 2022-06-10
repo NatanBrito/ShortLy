@@ -21,7 +21,7 @@ export async  function ValidateSignUp(req,res,next){
     WHERE email='${email}'
     `);
     if(ValidateEmail.rowCount>0){
-        res.status(409).send("e-mail ja cadastrado,tente outro...")
+        res.status(422).send("e-mail ja cadastrado,tente outro...")
         return;
     }
     }catch(e){

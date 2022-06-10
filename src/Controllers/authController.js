@@ -24,8 +24,8 @@ export async function signIn (req,res){
    try{
     const verifyUser= await db.query(`
     SELECT users.password,users.name FROM users
-    WHERE email = '${email}'
-    `)
+    WHERE email = '$1'
+    `,[email])
     const {name}=verifyUser.rows[0]
     if(!bcrypt.compareSync(password, verifyUser.rows[0].password)){
       res.status(401).send("email ou senha incorretos...");

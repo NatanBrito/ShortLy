@@ -3,30 +3,16 @@ import pg from 'pg';
 // dotenv.config();
 // nao funcionando 
 
+
+
 const { Pool } = pg;
 
-
-
-{
-    rejectUnauthorized: false
+const databaseConfig = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+      rejectUnauthorized: false
+  }
 }
-const db = new Pool({
-  user,
-  password,
-  host,
-  port,
-  database
-});
+
+const db = new Pool(databaseConfig);
 export default db;
-
-// const { Pool } = pg;
-
-// const databaseConfig = {
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//       rejectUnauthorized: false
-//   }
-// }
-
-// const db = new Pool(databaseConfig);
-// export default db;

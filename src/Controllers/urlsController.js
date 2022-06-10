@@ -84,3 +84,29 @@ export async function deleteUrl (req,res){
         res.sendStatus(400);
     }
 }
+
+export async function findShortsUsers (req,res){
+    const idUser=req.params.id;
+    const ParamId= parseInt(idUser)
+    if(!ParamId || typeof(ParamId) !== "number") return res.sendStatus(401);
+    try{
+    const  userData= await db.query(`
+    SELECT users.id,users.name, sum(su."visitCount") AS "visitCount" FROM "users"
+    JOIN "shortUrls" su ON su."userId"=users.id
+    WHERE users.id= $1
+    GROUP BY users.id;
+    `,[ParamId]);
+    if(userData.rowCount === 0) return res.sendStatus(404);
+    const userShorts= await db.query(`
+    SELECT "shortUrls".id, "shortUrls"."shortUrl",
+    "shortUrls".url, "shortUrls"."visitCount"
+    FROM "shortUrls"
+    WHERE "userId"=$1;
+    `,[ParamId]);
+
+    let userInfo =  userData.rows[0] ;
+    res.status(200).send({...userInfo,"shortenedUrls":userShorts.rows});
+    }catch(e){
+        res.sendStatus(500);
+    }
+}
